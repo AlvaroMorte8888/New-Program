@@ -16,8 +16,10 @@ before do
 end	
 # вызываеться каждый раз при конфигурации преложения когда изменился код програмы и пререзагрузилась страница
 configure do 
+	
 	#инициализания БД
 	init_db
+	
 	#создает таблицу ксли таблица не существует
 	@db. execute 'CREATE TABLE IF NOT EXISTS Posts 
 	(
@@ -33,7 +35,7 @@ end
 
 #обработчик get-запроса new
 #(браузер получает страницу из сервера)
-get '/New' do
+get '/new' do
   erb :new
 end
 
@@ -43,5 +45,9 @@ post '/new' do
 	# получаем переменную из пост запроса
 	content = params[:content]
 
+	if content.length <= 0
+		@error = 'Type post text'
+		return erb :new 
+	end	
   erb "You typed:  #{content}"
 end
