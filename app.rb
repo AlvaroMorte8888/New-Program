@@ -30,7 +30,10 @@ configure do
 end 	
 
 get '/' do
-	erb :index			
+	# выбираем список постов из БД
+	
+	results = db.execute 'select * from Posts'
+		erb :index			
 end
 
 #обработчик get-запроса new
