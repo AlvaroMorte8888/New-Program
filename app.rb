@@ -9,8 +9,8 @@ def init_db
 	@db.resulte_as_hash = true
 end	
 
-before do 
-
+before do
+	init_db
 end	
 
 
