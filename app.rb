@@ -20,20 +20,20 @@ configure do
 	#инициализания БД
 	init_db
 	
-	#создает таблицу ксли таблица не существует
+	#создает таблицу если таблицы не существует
 	@db. execute 'CREATE TABLE IF NOT EXISTS Posts 
 	(
-		id INTEGER PRIMARY KEY AUTOINCREMENT,
-		created_date	DATE,
-		content	TEXT
+		"id" INTEGER PRIMARY KEY AUTOINCREMENT,
+		"created_date"	DATE,
+		"content"	TEXT
 	)'
 
-	@db. execute 'CREATE TABLE IF NOT EXISTS Coments 
+	@db. execute 'CREATE TABLE IF NOT EXISTS Comments 
 	(
-		id INTEGER PRIMARY KEY AUTOINCREMENT,
-		created_date	DATE,
-		content	TEXT
-		post_id integer
+		"id" INTEGER PRIMARY KEY AUTOINCREMENT,
+		"created_date" DATE,
+		"content"	TEXT,
+		"post_id" INTEGER
 	)'
 end 	
 
@@ -45,15 +45,16 @@ get '/' do
 	erb :index			
 end
 
-#обработчик get-запроса new
-#(браузер получает страницу из сервера)
+# обработчик get-запроса new
+# (браузер получает страницу из сервера)
 get '/new' do
   erb :new
 end
 
-#обработчик post-запроса new
-#(браузер получает страницу из сервера) 
+# обработчик post-запроса new
+#( браузер получает страницу из сервера) 
 post '/new' do
+	
 	# получаем переменную из пост запроса
 	content = params[:content]
 
@@ -97,5 +98,19 @@ post '/details/:post_id' do
 	# получаем переменную из post-запроса
 	content = params[:content]
 
-	erb "You typed comemnt #{content} for post #{post_id}"
+	#сохранение данных в БД
+	@db.execute 'insert into Comments 
+		(
+			content,
+			created_date,
+			post_id
+		) 
+			values 
+		(
+			?,
+			datetime(),
+			?
+		)', [content, post_id]
+
+	redirect to ('/details/' + post_id)
 end	 
