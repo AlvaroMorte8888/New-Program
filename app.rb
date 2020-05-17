@@ -84,6 +84,9 @@ get '/details/:post_id' do
 	# выбираем это один пост в переменную @row
 	@row = results[0]
 
+	# выбираем коментарии для нашего поста
+	@comments = @db.execute 'select * from Comments where post_id = ? jrder by id', [post_id]
+
 	# вовращаем переменную details.erb
 	erb :details
 end	
