@@ -8,10 +8,22 @@
 </p>
 <br />
 <h4>Comments:</h4>
+<br />
+
+<% @comments.each do |comment|%>
+    <p>
+        <%= comment['content']%>
+    <br />
+    <br />
+    <span style="fond-size: 75%; color: #999"> Added at <%= comment['created_date']%></span>  
+    </p>
+    <hr />
+<% end %>
+
 <p>
    <form action="/details/<%= @row['id'] %>" method="POST" role="form">
-    <textarea name="content" class="form-control" row="12" placeholder="Type post text here"></textarea> 
-    <br />
-    <button type="submit" class="btn btn-primary">Add comment</button> 
+        <textarea name="content" class="form-control" row="12" placeholder="Type post text here"></textarea> 
+        <br />
+        <button type="submit" class="btn btn-primary">Add comment</button> 
     </form>  
 </p>    
